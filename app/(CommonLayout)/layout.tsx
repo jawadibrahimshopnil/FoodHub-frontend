@@ -1,4 +1,5 @@
 import Navbar from "@/components/shared/Navbar";
+import Footer from './../../components/shared/Footer';
 export default function CommonLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
@@ -12,9 +13,7 @@ export default function CommonLayout({ children }: { children: React.ReactNode }
 
       {/* Global Footer */}
       {/* <Footer /> */}
-      <footer className="border-t py-6 text-center text-sm text-gray-500">
-         © {new Date().getFullYear()} FoodHub. All rights reserved.
-      </footer>
+      <Footer />
     </div>
   );
 }
