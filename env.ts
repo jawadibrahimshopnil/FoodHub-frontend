@@ -15,10 +15,10 @@ export const env = createEnv({
    * Client-side variables.
    * MUST be prefixed with NEXT_PUBLIC_ for the browser to see them.
    */
-  client: {
-    NEXT_PUBLIC_APP_URL: z.url(),
-    NEXT_PUBLIC_BETTER_AUTH_URL: z.url(),
-  },
+  // client: {
+  //   NEXT_PUBLIC_APP_URL: z.url(),
+  //   NEXT_PUBLIC_BETTER_AUTH_URL: z.url(),
+  // },
 
   /*
    i will use them to insteed of using .env 
@@ -26,7 +26,7 @@ export const env = createEnv({
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
     BACKEND_URL: process.env.BACKEND_URL,
-    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
-    NEXT_PUBLIC_BETTER_AUTH_URL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
+    // NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+    // NEXT_PUBLIC_BETTER_AUTH_URL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
   },
 });
