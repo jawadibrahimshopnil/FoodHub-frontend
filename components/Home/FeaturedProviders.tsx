@@ -7,7 +7,8 @@ export default async function FeaturedProviders() {
 
   console.log("from featured", providers);
 
-  if (error || !providers || providers.length === 0) return null;
+  if (error) return <div>Error loading kitchens: {error.message}</div>;
+  if (!providers || providers.length === 0) return <div>No kitchens found!</div>;
 
   return (
     <section className="py-24 bg-white overflow-hidden">
