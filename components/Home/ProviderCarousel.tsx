@@ -41,7 +41,7 @@ export default function ProviderCarousel({ providers }: { providers: Record<stri
         ref={scrollRef}
         className="flex gap-8 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth pb-10"
       >
-        {providers.map((provider) => (
+        {providers.map((provider: Record<string, any>) => (
           <Link 
             key={provider.id} 
             href={`/providers/${provider.id}`}
