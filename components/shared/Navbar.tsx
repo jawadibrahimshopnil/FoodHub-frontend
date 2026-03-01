@@ -24,7 +24,7 @@ import { cn } from "@/lib/utils";
 // Add or remove links here, and the whole UI (Desktop & Mobile) updates.
 const navLinks = [
     { name: "Home", href: "/" },
-    { name: "Meal", href: "/meal" },
+    { name: "Meal", href: "/meals" },
     { name: "Providers", href: "/providers" },
     { name: "Dashboard", href: "/dashboard" },
     { name: "Contact", href: "/contact" },

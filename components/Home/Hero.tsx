@@ -21,7 +21,7 @@ export default function Hero() {
                 <div className="absolute inset-0 bg-white/60 lg:bg-transparent lg:bg-gradient-to-r lg:from-white lg:via-white/70 lg:to-transparent" />
             </div>
 
-            <div className="container relative z-10 mx-auto px-6">
+            <div className="container relative z-10 mx-auto py-6 px-6">
                 <div className="max-w-2xl text-center lg:text-left space-y-8 animate-in fade-in slide-in-from-left-8 duration-1000">
 
                     {/* Badge */}
@@ -48,7 +48,7 @@ export default function Hero() {
                         <Link href="/meal">
                             <Button
                                 size="lg"
-                                className="h-14 md:h-16 px-8 md:px-10 mt-6 rounded-full bg-blue-600 hover:bg-blue-700 text-lg md:text-xl font-black shadow-xl hover:shadow-2xl shadow-blue-200 transition-all duration-300 active:scale-95 group overflow-hidden"
+                                className="h-14 md:h-16 px-8 md:px-10 rounded-full bg-blue-600 hover:bg-blue-700 text-lg md:text-xl font-black shadow-xl hover:shadow-2xl shadow-blue-200 transition-all duration-300 active:scale-95 group overflow-hidden"
                             >
                                 <span className="relative z-10 flex items-center">
                                     Order Now
@@ -57,7 +57,7 @@ export default function Hero() {
                             </Button>
                         </Link>
                         <Link href="/providers">
-                            <Button variant="outline" size="lg" className="h-16 px-10 mb-8 rounded-full border-2 bg-white/50 backdrop-blur-sm text-lg font-bold hover:bg-white transition-all">
+                            <Button variant="outline" size="lg" className="h-16 px-10 rounded-full border-2 bg-white/50 backdrop-blur-sm text-lg font-bold hover:bg-white transition-all">
                                 Explore Kitchens
                             </Button>
                         </Link>
