@@ -17,6 +17,8 @@ import {
     SheetTitle,
     SheetDescription
 } from "@/components/ui/sheet";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 // --- 1. SCALABLE LINK CONFIGURATION ---
 // Add or remove links here, and the whole UI (Desktop & Mobile) updates.
@@ -29,6 +31,8 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+    const pathname = usePathname();
+
     return (
         <header className="sticky top-0 z-50 w-full border-b border-blue-100 bg-white/80 backdrop-blur-md">
             <div className="container mx-auto flex h-20 items-center justify-between px-6">
@@ -45,15 +49,22 @@ export default function Navbar() {
 
                 {/* --- 3. DESKTOP NAVIGATION --- */}
                 <nav className="hidden lg:flex items-center gap-8">
-                    {navLinks.map((link) => (
-                        <Link
+                    {navLinks.map((link) => {
+                        const isActive = pathname === link.href;
+                        return (<Link
                             key={link.name}
                             href={link.href}
-                            className="text-sm font-bold text-gray-600 transition-all hover:text-blue-600 hover:tracking-wide"
-                        >
+                            className={cn(
+                                    "text-sm font-bold transition-all hover:text-blue-600",
+                                    isActive 
+                                        ? "text-blue-600 underline underline-offset-8 decoration-2" 
+                                        : "text-gray-600"
+                                )}
+                            >
                             {link.name}
                         </Link>
-                    ))}
+                        )
+                    })}
                 </nav>
 
                 {/* --- 4. ACTION ICONS & BUTTONS --- */}
@@ -100,15 +111,20 @@ export default function Navbar() {
 
                                 {/* 2. Navigation Links */}
                                 <nav className="flex flex-col gap-6 mt-10">
-                                    {navLinks.map((link) => (
-                                        <Link
+                                    {navLinks.map((link) => {
+                                        const isActive = pathname === link.href;
+                                        return (<Link
                                             key={link.name}
                                             href={link.href}
-                                            className="text-lg font-bold text-gray-800 transition-colors hover:text-blue-600"
+                                            className={cn(
+                                                    "text-lg font-bold transition-colors",
+                                                    isActive ? "text-blue-600" : "text-gray-800 hover:text-blue-600"
+                                                )}
                                         >
                                             {link.name}
                                         </Link>
-                                    ))}
+                                    );
+                                    })}
 
                                     <hr className="my-2 border-blue-50" />
 
