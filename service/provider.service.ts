@@ -4,7 +4,7 @@ const API_URL = env.BACKEND_URL;
 
 export const providerService = {
   
-  getProviders: async function (revalidate = 3600) {
+  getProviders: async function (revalidate = 1) {
     try {
       console.log(`${API_URL}/providers`);
       const res = await fetch(`${API_URL}/providers`, {
@@ -40,7 +40,7 @@ export const providerService = {
     },
 
   
-  getProviderById: async function (id: string, revalidate = 60) {
+  getProviderById: async function (id: string, revalidate = 1) {
     try {
       const res = await fetch(`${API_URL}/providers/${id}`, {
         method: 'GET',
