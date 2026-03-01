@@ -70,7 +70,7 @@ export default function ProviderCarousel({ providers }: { providers: Record<stri
               <div className="p-7 flex-grow flex flex-col justify-between space-y-4">
                 <div className="space-y-2">
                   <h4 className="text-2xl font-black text-gray-900 group-hover/card:text-blue-600 transition-colors truncate">
-                    {provider.businessName}
+                    {provider.name}
                   </h4>
                   <div className="flex items-center gap-1.5 text-gray-500">
                     <MapPin className="h-4 w-4 text-blue-600 shrink-0" />
