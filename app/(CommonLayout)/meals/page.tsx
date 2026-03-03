@@ -48,7 +48,7 @@ export default async function AllMealsPage({
 
             <div className="h-4 w-[1px] bg-gray-200 mx-1" />
 
-            {["Halal", "Vegan", "High-Protein"].map((item) => (
+            {["Halal", "Vegan", "Gluten-Free", "Dairy-Free", "Vegetarian"].map((item) => (
               <Link
                 key={item}
                 href={`/meals?dietary=${item}`}
@@ -99,7 +99,7 @@ export default async function AllMealsPage({
 
                     <div className="p-4 space-y-3">
                       <div className="flex justify-between items-center">
-                        <span className="text-[10px] font-black text-blue-600 uppercase bg-blue-50 px-2 py-0.5 rounded">{meal.category?.name}</span>
+                        <span className="text-[10px] font-black text-blue-600 uppercase bg-blue-50 px-2 py-0.5 rounded">{meal.cuisine}</span>
                         <span className="text-lg font-black text-gray-900">৳{meal.price}</span>
                       </div>
                       <h3 className="text-lg font-bold text-gray-900 truncate">{meal.name}</h3>
