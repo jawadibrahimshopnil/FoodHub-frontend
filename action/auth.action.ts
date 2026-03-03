@@ -40,6 +40,15 @@ export const signInUserAction = async (values: LoginInput) => {
       return { success: false, message: res?.message || "Login failed" };
     }
     
+    const cookieStore = await cookies();
+
+    cookieStore.set("token", res.data.token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7,
+    });
     return { success: true };
     
   } catch (err) {
