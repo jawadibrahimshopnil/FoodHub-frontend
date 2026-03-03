@@ -1,12 +1,19 @@
 "use server";
 
 import { userService } from "@/service/user.service";
+import { cookies } from "next/headers";
+import { parse } from "path";
 
 export interface RegisterInput {
   name: string;
   email: string;
   password: string;
   role: "CUSTOMER" | "PROVIDER";
+}
+
+export interface LoginInput {
+  email: string;
+  password: string;
 }
 
 export const signUpUserAction = async (values: RegisterInput) => {
@@ -24,3 +31,19 @@ export const signUpUserAction = async (values: RegisterInput) => {
     return { success: false, message: "Server connection failed" };
   }
 };
+
+export const signInUserAction = async (values: LoginInput) => {
+  try {
+    const res = await userService.loginUser(values);
+
+    if (!res.success) {
+      return { success: false, message: res?.message || "Login failed" };
+    }
+    
+    return { success: true };
+    
+  } catch (err) {
+    console.error("Login Action Error:", err);
+    return { success: false, message: "Login error" };
+  }
+}

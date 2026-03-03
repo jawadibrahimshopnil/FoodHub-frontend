@@ -27,5 +27,41 @@ export const userService = {
          console.log(error);
       }
    },
+   
+   loginUser : async (userData: Record<string, any>) => {
+      try {
+         const res = await fetch(`${AUTH_URL}/auth/login`, {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            "origin": process.env.NEXT_PUBLIC_SITE_URl || "http://localhost:5000"
+            },
+            credentials: "include",
+            body: JSON.stringify(userData),
+         });
+         
+      const result = await res.json();
+      return result;
 
+      } catch (error) {
+         console.log(error);
+      }
+   },
+
+   getUser : async () => {
+      const storeCookie = await cookies();
+      const token = storeCookie.get("token")?.value;
+      let decodedData = null;
+      if (token) {
+         decodedData = await jwtDecode(token);
+         return decodedData;
+      } else {
+         return null;
+      }
+   },
+
+   UserLogOut : async () => {
+      const storeCookie = await cookies();
+      storeCookie.delete("token");
+   }
 };
