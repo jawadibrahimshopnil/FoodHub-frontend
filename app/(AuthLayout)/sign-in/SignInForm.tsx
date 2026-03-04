@@ -38,9 +38,8 @@ export default function SignInForm() {
 
       // 2. Hard reload to /dashboard
 
-      window.location.href = "/dashboard";
-
-      toast.success("Welcome back!", { id: toastId });
+      router.push("/dashboard"); 
+      router.refresh();
 
     },
   });
