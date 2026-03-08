@@ -24,12 +24,12 @@ export function AppSidebar({ role }: { role: string }) {
       },
       {
         title: "Menu Management",
-        url: "/provider-dashboard/menu-management",
+        url: "/provider-dashboard/menu-management", 
         icon: ClipboardList
       },
       {
         title: "Live Orders",
-        url: "/provider-dashboard/orders",
+        url: "/provider-dashboard/orders", 
         icon: Package
       },
     ],

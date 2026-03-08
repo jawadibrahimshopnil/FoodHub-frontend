@@ -1,9 +1,8 @@
+import { redirect } from "next/navigation";
+
 const ProviderDashboard = () => {
-    return (
-        <div>
-            <h1>Provider</h1>
-        </div>
-    );
+    // return redirect("provider-dashboard/kitchen-profile")
+    return <h1> hi </h1>
 };
 
 export default ProviderDashboard;
