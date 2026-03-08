@@ -32,10 +32,10 @@ export default async function DashboardLayout({
      
         <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-slate-100 bg-white/80 px-6 backdrop-blur-xl md:hidden">
           <div className="flex items-center gap-3">
-            <SidebarTrigger className="text-slate-600 hover:bg-orange-50 hover:text-orange-600 transition-colors" />
+            <SidebarTrigger className="text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors" />
             <div className="h-4 w-px bg-slate-200" />
             <div className="flex items-center gap-2">
-              <Zap className="h-4 w-4 text-orange-500 fill-orange-500" />
+              <Zap className="h-4 w-4 text-blue-500 fill-blue-500" />
               <span className="font-black text-slate-900 tracking-tighter text-sm uppercase">FoodHub</span>
             </div>
           </div>
