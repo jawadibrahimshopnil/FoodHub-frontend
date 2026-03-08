@@ -1,6 +1,6 @@
 "use client";
 
-import { ClipboardList, Package, Settings, ShoppingCart, Users, Utensils, Zap, LayoutDashboard } from "lucide-react";
+import { ClipboardList, Package, Settings, ShoppingCart, Users, Utensils, Zap, LayoutDashboard, Grid2X2, PlusCircle, UserCheck } from "lucide-react";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader } from "../ui/sidebar";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,26 +11,42 @@ export function AppSidebar({ role }: { role: string }) {
 
   const menuItems = {
     ADMIN: [
-      // Changed from /dashboard/admin to /dashboard/admin-dashboard
-      { title: "Overview", url: "/dashboard/admin-dashboard", icon: LayoutDashboard },
-      { title: "Manage Users", url: "/dashboard/admin-dashboard/users", icon: Users },
-      { title: "All Orders", url: "/dashboard/admin-dashboard/orders", icon: ShoppingCart },
+      { title: "User Directory", url: "/admin-dashboard/users", icon: Users },
+      { title: "Category List", url: "/admin-dashboard/category-list", icon: Grid2X2 },
+      { title: "Create Category", url: "/admin-dashboard/post-categories", icon: PlusCircle },
+      { title: "All Orders History", url: "/admin-dashboard/orders", icon: ShoppingCart },
     ],
     PROVIDER: [
-      // Changed from /dashboard/provider to /dashboard/provider-dashboard
-      { title: "Kitchen", url: "/dashboard/provider-dashboard", icon: Utensils },
-      { title: "Menu Items", url: "/dashboard/provider-dashboard/menu", icon: ClipboardList },
-      { title: "Orders", url: "/dashboard/provider-dashboard/orders", icon: Package },
+      {
+        title: "Kitchen Profile",
+        url: "/provider-dashboard/kitchen-profile",
+        icon: Utensils
+      },
+      {
+        title: "Menu Management",
+        url: "/provider-dashboard/menu-management",
+        icon: ClipboardList
+      },
+      {
+        title: "Live Orders",
+        url: "/provider-dashboard/orders",
+        icon: Package
+      },
     ],
+
     CUSTOMER: [
-      // Changed from /dashboard/user to /dashboard (your root dashboard)
-      { title: "Browse Food", url: "/dashboard", icon: ShoppingCart },
-      { title: "My Orders", url: "/dashboard/my-orders", icon: Package },
-      { title: "Profile", url: "/dashboard/profile", icon: Settings },
-    ],
+
+      { title: "My Cart", url: "/dashboard/my-cart", icon: ShoppingCart },
+
+      {
+        title: "Order History", url: "/dashboard/my-orders", icon: Package
+
+      },
+
+    ]
   };
 
-  // Logic remains the same: pick menu based on role
+
   const currentMenu = menuItems[role as keyof typeof menuItems] || [];
 
   return (
@@ -42,7 +58,14 @@ export function AppSidebar({ role }: { role: string }) {
             <Zap className="h-5 w-5 text-white fill-white animate-pulse" />
           </div>
           <div className="flex flex-col">
-            <span className="font-black tracking-tighter text-slate-900 text-xl leading-none">FOODHUB</span>
+            <Link
+              href="/"
+              className="flex items-center gap-2 transition-all duration-300 hover:scale-105 active:scale-95 group"
+            >
+              <span className="font-black tracking-tighter text-slate-900 text-xl leading-none group-hover:text-blue-600 transition-colors">
+                FOODHUB
+              </span>
+            </Link>
             <div className="flex items-center gap-1.5 mt-1">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
@@ -69,8 +92,8 @@ export function AppSidebar({ role }: { role: string }) {
                       asChild
                       className={cn(
                         "group relative flex items-center gap-3 px-4 py-7 rounded-[1.25rem] transition-all duration-300 border border-transparent",
-                        isActive 
-                          ? "bg-white border-slate-100 text-blue-600 shadow-xl shadow-slate-100" 
+                        isActive
+                          ? "bg-white border-slate-100 text-blue-600 shadow-xl shadow-slate-100"
                           : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
                       )}
                     >
@@ -80,7 +103,7 @@ export function AppSidebar({ role }: { role: string }) {
                           isActive ? "text-blue-600" : "text-slate-400 group-hover:text-slate-900"
                         )} />
                         <span className="font-bold text-[15px]">{item.title}</span>
-                        
+
                         {isActive && (
                           <div className="absolute left-0 w-1.5 h-8 bg-blue-600 rounded-r-full shadow-[2px_0_8px_rgba(234,88,12,0.4)]" />
                         )}
@@ -97,16 +120,16 @@ export function AppSidebar({ role }: { role: string }) {
       {/* Cyberpunk Status Footer */}
       <div className="mt-auto p-4 border-t border-slate-50">
         <div className="bg-slate-950 rounded-[2rem] p-5 relative overflow-hidden group">
-            <div className="absolute -right-4 -top-4 h-20 w-20 bg-blue-500/10 rounded-full blur-3xl" />
-            <div className="relative z-10 flex items-center justify-between">
-                <div className="flex flex-col">
-                    <span className="text-[9px] font-black text-blue-500 uppercase tracking-widest">Network</span>
-                    <span className="text-xs font-bold text-white mt-0.5">Render: Online</span>
-                </div>
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/5 border border-white/10 text-green-400">
-                   <div className="h-2 w-2 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e]" />
-                </div>
+          <div className="absolute -right-4 -top-4 h-20 w-20 bg-blue-500/10 rounded-full blur-3xl" />
+          <div className="relative z-10 flex items-center justify-between">
+            <div className="flex flex-col">
+              <span className="text-[9px] font-black text-blue-500 uppercase tracking-widest">Network</span>
+              <span className="text-xs font-bold text-white mt-0.5">Render: Online</span>
             </div>
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/5 border border-white/10 text-green-400">
+              <div className="h-2 w-2 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e]" />
+            </div>
+          </div>
         </div>
       </div>
     </Sidebar>
