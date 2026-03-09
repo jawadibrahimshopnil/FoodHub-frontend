@@ -46,19 +46,12 @@ export const createCategoryAction = async (payload: { name: string; }) => {
 
 export const getAllCategoriesAction = async () => {
   try {
-    // 1. Grab the auth cookie from the browser
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
 
     const res = await fetch(`${BACKEND_URL}/categories`, {
       method: "GET",
-      headers: {
-        "Authorization": token!
-      },
     });
 
     const result = await res.json();
-
 
     if (!res.ok) {
         console.log("Backend Error Status:", res.status);
@@ -68,6 +61,36 @@ export const getAllCategoriesAction = async () => {
       return result.data; 
     }
     return [];
+  } catch (err) {
+    console.error("GET_CATEGORIES_ERROR:", err);
+    return [];
+  }
+};
+
+export const getAllDietariesAction = async () => {
+  try {
+
+    const dietaries = [
+      {
+        "id": "1",
+        "name": "gluten-free"
+      }, {
+        "id": "2",
+        "name": "vegetarian"
+      }, {
+        "id": "4",
+        "name": "halal"
+      }, {
+        "id": "5",
+        "name": "dairy-free"
+      }, {
+        "id": "3",
+        "name": "vegan"
+      }
+    ]
+
+    return dietaries;
+
   } catch (err) {
     console.error("GET_CATEGORIES_ERROR:", err);
     return [];
