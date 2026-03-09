@@ -87,6 +87,11 @@ export default function Navbar() {
                             Sign In
                         </Button>
                     </Link>
+                    <Link href="/sign-up">
+                        <Button className="hidden md:flex rounded-full bg-blue-600 px-6 font-bold hover:bg-blue-700 transition-all active:scale-95 shadow-md shadow-blue-100">
+                            Sign Up
+                        </Button>
+                    </Link>
 
                     {/* --- RESPONSIVE MOBILE MENU --- */}
                     <div className="lg:hidden">

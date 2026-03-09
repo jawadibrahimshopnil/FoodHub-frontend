@@ -82,7 +82,7 @@ export default function SignUpForm() {
                       : "border-slate-100 bg-slate-50 text-slate-500 hover:border-slate-200"
                   }`}
                 >
-                  <ShoppingBasket className="h-4 w-4" /> Order Food
+                  <ShoppingBasket className="h-4 w-4" /> Order Food (customer)
                 </button>
                 <button
                   type="button"
@@ -93,7 +93,7 @@ export default function SignUpForm() {
                       : "border-slate-100 bg-slate-50 text-slate-500 hover:border-slate-200"
                   }`}
                 >
-                  <Store className="h-4 w-4" /> Sell Food
+                  <Store className="h-4 w-4" /> Sell Food (provider)
                 </button>
               </div>
             </div>
