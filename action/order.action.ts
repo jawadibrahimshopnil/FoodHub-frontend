@@ -74,3 +74,42 @@ export const updateOrderStatusAction = async (orderId: string, status: string) =
     return { success: false, message: "Network failure" };
   }
 };
+
+
+export const getMyOrdersAction = async () => {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+
+    const res = await fetch(`${BACKEND_URL}/orders`, {
+      method: "GET",
+      headers: { "Authorization": token! },
+      cache: "no-store",
+    });
+
+    const result = await res.json();
+    return res.ok && result.success ? result.data : [];
+  } catch (err) {
+    return [];
+  }
+};
+
+export const trackOrderAction = async (orderId: string) => {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+
+    const res = await fetch(`${BACKEND_URL}/orders/${orderId}`, {
+      method: "GET",
+      headers: { "Authorization": token! },
+      cache: "no-store"
+    });
+
+    const result = await res.json();
+   
+    return res.ok && result.success ? result.data : null;
+  } catch (err) {
+    console.error("TRACKING_ERROR:", err);
+    return null;
+  }
+};
