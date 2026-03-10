@@ -6,8 +6,6 @@ import OrderHistoryTable from "@/components/admin/OrderHistoryTable";
 export default async function OrderHistoryPage() {
   const orders = await getAllOrdersAction();
 
-  console.log(orders);
-
   return (
     <div className="p-4 md:p-8 space-y-8 animate-in fade-in duration-500">
       <div className="max-w-[1400px] mx-auto border-b border-slate-100 pb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">

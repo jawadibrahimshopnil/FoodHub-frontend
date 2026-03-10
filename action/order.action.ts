@@ -41,7 +41,7 @@ export const getProviderOrdersAction = async () => {
     });
 
     const result = await res.json();
-    console.log(result);
+    
     return res.ok && result.success ? result.data : [];
   } catch (err) {
     console.error("GET_ORDERS_ERROR:", err);

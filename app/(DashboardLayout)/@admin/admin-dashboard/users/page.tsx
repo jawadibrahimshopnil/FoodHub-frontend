@@ -4,7 +4,6 @@ import { userService } from "@/service/user.service";
 export default async function UsersPage() {
   
   const response = await userService.getAllUsers();
-  console.log("Users Response:", response);
   
 
   let users = [];
@@ -21,7 +20,6 @@ export default async function UsersPage() {
 
  
   const user = await userService.getUser();
-  console.log("Current user:", user);
 
   const currentUserEmail = user?.email;
   const currentUserRole = user?.role;

@@ -36,15 +36,13 @@ export default function SignUpForm() {
       
       const payload: RegisterInput = value;
 
-      console.log("submiting data");
       const result = await signUpUserAction(payload);
 
       if (!result.success) {
         toast.error(result.message, { id: toastId });
         return;
       }
-
-      console.log("hitting succes toast");
+      
       toast.success("Account created! Redirecting to Sign In...", { id: toastId });
       
       setTimeout(() => {

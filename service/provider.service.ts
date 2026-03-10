@@ -6,7 +6,6 @@ export const providerService = {
   
   getProviders: async function (revalidate = 1) {
     try {
-      console.log(`${API_URL}/providers`);
       const res = await fetch(`${API_URL}/providers`, {
         method: 'GET',
         headers: {
