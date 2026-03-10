@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -25,7 +26,7 @@ export default function Menu_Management() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getAllCategoriesAction().then((res: Record<string, any>) => { if (res) setCategories(res); });
+    getAllCategoriesAction().then((res: { id: string; name: string }[]) => { if (res) setCategories(res); });
     getAllDietariesAction().then((res) => { if (res) setDietaries(res); });
   }, []);
 
