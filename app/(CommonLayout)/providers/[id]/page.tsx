@@ -2,6 +2,8 @@ import { providerService } from "@/service/provider.service";
 import Image from "next/image";
 import { MapPin, Star, Utensils, Leaf, Flame, ShoppingBag, MessageSquare } from "lucide-react";
 import { Badge } from "@/components/ui/badge"; 
+import AddToCartButton from "@/components/meals/AddToCartButton";
+import CartSidebar from "@/components/meals/CartSidebar";
 export default async function ProviderDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const { data: provider, error } = await providerService.getProviderById(id);
@@ -86,9 +88,12 @@ export default async function ProviderDetailsPage({ params }: { params: Promise<
                        </span>
                     </div>
 
-                    <button className="w-full bg-gray-900 text-white py-4 rounded-[1.5rem] font-bold flex items-center justify-center gap-2 hover:bg-blue-600 transition-all active:scale-95">
-                      <ShoppingBag className="h-5 w-5" /> Add to Order
-                    </button>
+                    <AddToCartButton 
+                        meal={meal}
+                        className="w-full bg-gray-900 text-white py-5 rounded-[2rem] font-black uppercase text-[10px] tracking-[0.2em] flex items-center justify-center gap-3 hover:bg-blue-600 transition-all active:scale-95 shadow-xl shadow-slate-100 group"
+                    >
+                      <ShoppingBag className="h-5 w-5 group-hover:rotate-12 transition-transform" /> Add to Order
+                    </AddToCartButton>
                   </div>
                 </div>
               ))}
@@ -96,27 +101,10 @@ export default async function ProviderDetailsPage({ params }: { params: Promise<
           </div>
 
           {/* Sticky Cart Sidebar (4 Columns) */}
+          
           <div className="lg:col-span-4">
-            <div className="sticky top-24 bg-white p-8 rounded-[3rem] border border-gray-100 shadow-sm">
-              <h3 className="text-2xl font-black text-gray-900 mb-6">Your Order</h3>
-              <div className="flex flex-col items-center justify-center py-10 text-center space-y-4">
-                <div className="h-20 w-20 bg-gray-50 rounded-full flex items-center justify-center">
-                  <ShoppingBag className="h-10 w-10 text-gray-300" />
-                </div>
-                <p className="text-gray-400 font-medium">Your cart is empty.<br/>Add some delicious meals!</p>
-              </div>
-              <div className="border-t pt-6 space-y-4">
-                <div className="flex justify-between font-bold text-gray-500">
-                  <span>Subtotal</span>
-                  <span>৳0</span>
-                </div>
-                <button disabled className="w-full bg-gray-100 text-gray-400 py-4 rounded-[1.5rem] font-bold cursor-not-allowed">
-                  Checkout
-                </button>
-              </div>
-            </div>
+              <CartSidebar providerId={provider.id} />
           </div>
-
         </div>
       </div>
     </main>

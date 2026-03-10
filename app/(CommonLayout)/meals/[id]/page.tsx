@@ -2,6 +2,7 @@ import { mealService } from "@/service/meal.service";
 import Image from "next/image";
 import { ShoppingBag, ShieldCheck, MapPin, ChevronLeft, Clock, Flame, Utensils, Leaf } from "lucide-react";
 import Link from "next/link";
+import AddToCartButton from "@/components/meals/AddToCartButton";
 
 export default async function MealDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -87,10 +88,13 @@ export default async function MealDetailsPage({ params }: { params: Promise<{ id
                 </div>
               </div>
 
-              <button className="w-full bg-gray-900 text-white py-6 rounded-[2.5rem] text-xl font-black flex items-center justify-center gap-4 hover:bg-blue-600 hover:shadow-2xl hover:shadow-blue-200 transition-all active:scale-95 group">
+              <AddToCartButton
+                meal={meal} 
+                className="w-full bg-gray-900 text-white py-6 rounded-[2.5rem] text-xl font-black flex items-center justify-center gap-4 hover:bg-blue-600 hover:shadow-2xl hover:shadow-blue-200 transition-all active:scale-95 group uppercase tracking-widest shadow-xl"
+              >
                 <ShoppingBag className="h-6 w-6 group-hover:rotate-12 transition-transform" />
                 Add to Cart
-              </button>
+              </AddToCartButton>
             </div>
 
             {/* Provider/Kitchen Branding */}

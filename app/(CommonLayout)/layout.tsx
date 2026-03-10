@@ -1,5 +1,6 @@
 import Navbar from "@/components/shared/Navbar";
 import Footer from './../../components/shared/Footer';
+import { Toaster } from "sonner";
 export default function CommonLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
@@ -13,6 +14,7 @@ export default function CommonLayout({ children }: { children: React.ReactNode }
 
       {/* Global Footer */}
       {/* <Footer /> */}
+      <Toaster richColors position="top-center" expand={false} />
       <Footer />
     </div>
   );

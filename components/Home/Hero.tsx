@@ -45,7 +45,7 @@ export default function Hero() {
 
                     {/* CTAs */}
                     <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-                        <Link href="/meal">
+                        <Link href="/meals">
                             <Button
                                 size="lg"
                                 className="h-14 md:h-16 px-8 md:px-10 rounded-full bg-blue-600 hover:bg-blue-700 text-lg md:text-xl font-black shadow-xl hover:shadow-2xl shadow-blue-200 transition-all duration-300 active:scale-95 group overflow-hidden"

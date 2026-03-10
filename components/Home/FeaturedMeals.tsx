@@ -1,6 +1,7 @@
 import { mealService } from "@/service/meal.service";
 import Image from "next/image";
 import { ShoppingBag, Flame, Clock } from "lucide-react";
+import AddToCartButton from "../meals/AddToCartButton";
 
 export default async function FeaturedMeals() {
   const { data: meals, error } = await mealService.getAllMeals()
@@ -53,9 +54,10 @@ export default async function FeaturedMeals() {
                   {meal.description}
                 </p>
 
-                <button className="w-full bg-gray-900 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-blue-600 transition-all active:scale-95 mt-2">
-                  <ShoppingBag className="h-4 w-4" /> Add to Cart
-                </button>
+                <AddToCartButton 
+                meal={meal} 
+                className="w-full bg-gray-900 text-white py-3 rounded-2xl font-bold mt-2 hover:bg-blue-600 transition-all flex items-center justify-center gap-2 active:scale-95"
+              />
               </div>
             </div>
           ))}

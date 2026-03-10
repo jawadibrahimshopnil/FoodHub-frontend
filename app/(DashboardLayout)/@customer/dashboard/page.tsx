@@ -1,9 +1,7 @@
+import { redirect } from "next/navigation";
+
 const Dashboard = () => {
-    return (
-        <div>
-            <h1>Customer</h1>
-        </div>
-    );
+    redirect("dashboard/my-cart")
 };
 
 export default Dashboard;

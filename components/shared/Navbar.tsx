@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -9,7 +9,8 @@ import {
     Menu,
     ShoppingBag,
     Search,
-    User
+    User,
+    LogOut
 } from "lucide-react";
 import { Logo } from "./Logo";
 import {
@@ -17,8 +18,12 @@ import {
     SheetTitle,
     SheetDescription
 } from "@/components/ui/sheet";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { UserSession } from "@/app/types/user";
+import { getCart } from "@/helpers/cart.helper";
+import { userService } from "@/service/user.service";
+import { getServerSessionAction, logoutUserAction } from "@/action/auth.action";
 
 // --- 1. SCALABLE LINK CONFIGURATION ---
 // Add or remove links here, and the whole UI (Desktop & Mobile) updates.
@@ -32,6 +37,84 @@ const navLinks = [
 
 export default function Navbar() {
     const pathname = usePathname();
+
+      const router = useRouter();
+
+ 
+  const [session, setSession] = useState<UserSession | null>(null);
+  const [cartCount, setCartCount] = useState<number>(0);
+  const [mounted, setMounted] = useState<boolean>(false);
+
+
+  const refreshSession = useCallback(async () => {
+    const serverSession = await getServerSessionAction();
+    setSession(serverSession as UserSession | null);
+  }, []);
+
+  useEffect(() => {
+    const initNavbar = async () => {
+      // 1. Initial truth from Server Action
+      await refreshSession();
+
+      // 2. Initial Cart Sync
+      const cart = getCart();
+      setCartCount(cart.reduce((sum, item) => sum + item.quantity, 0));
+
+      // 3. Prevent Hydration Mismatch
+      setMounted(true);
+    };
+
+    initNavbar();
+
+    // 4. Listen for tab focus/back-forward to clear "ghost" sessions
+    window.addEventListener("focus", refreshSession);
+
+    // 5. Cart Listener
+    const updateCartCount = () => {
+      const cart = getCart();
+      setCartCount(cart.reduce((sum, item) => sum + item.quantity, 0));
+    };
+
+    window.addEventListener("cart-updated", updateCartCount);
+    
+    return () => {
+      window.removeEventListener("focus", refreshSession);
+      window.removeEventListener("cart-updated", updateCartCount);
+    };
+  }, [refreshSession]);
+
+  const handleCartClick = () => {
+    if (!session) {
+      router.push("/sign-in");
+    } else {
+      router.push("/dashboard/my-cart");
+    }
+  };
+
+  const handleSignOut = async () => {
+ 
+    await logoutUserAction();
+    
+    setSession(null);
+    
+   
+    window.location.href = "/";
+  };
+
+ 
+  if (!mounted) {
+    return (
+      <header className="sticky top-0 z-50 w-full border-b border-blue-100 bg-white/80 backdrop-blur-md h-20">
+        <div className="container mx-auto px-6 flex items-center justify-between h-full">
+          <div className="flex items-center gap-2">
+            <div className="h-10 w-10 bg-blue-600 rounded-xl" />
+            <span className="text-xl font-black text-gray-900">Food<span className="text-blue-600">Hub</span></span>
+          </div>
+          <div className="h-9 w-24 bg-slate-50 animate-pulse rounded-full" />
+        </div>
+      </header>
+    );
+  }
 
     return (
         <header className="sticky top-0 z-50 w-full border-b border-blue-100 bg-white/80 backdrop-blur-md">
@@ -49,22 +132,18 @@ export default function Navbar() {
 
                 {/* --- 3. DESKTOP NAVIGATION --- */}
                 <nav className="hidden lg:flex items-center gap-8">
-                    {navLinks.map((link) => {
-                        const isActive = pathname === link.href;
-                        return (<Link
-                            key={link.name}
-                            href={link.href}
-                            className={cn(
-                                    "text-sm font-bold transition-all hover:text-blue-600",
-                                    isActive 
-                                        ? "text-blue-600 underline underline-offset-8 decoration-2" 
-                                        : "text-gray-600"
-                                )}
-                            >
-                            {link.name}
+                    {navLinks.map((link) => (
+                        <Link
+                        key={link.name}
+                        href={link.href}
+                        className={cn(
+                            "text-sm font-bold transition-all hover:text-blue-600",
+                            pathname === link.href ? "text-blue-600 underline underline-offset-8 decoration-2" : "text-gray-600"
+                        )}
+                        >
+                        {link.name}
                         </Link>
-                        )
-                    })}
+                    ))}
                 </nav>
 
                 {/* --- 4. ACTION ICONS & BUTTONS --- */}
@@ -73,25 +152,47 @@ export default function Navbar() {
                         <Search className="h-5 w-5" />
                     </Button>
 
-                    <Button variant="ghost" size="icon" className="relative rounded-full text-gray-600">
+                    <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="relative rounded-full text-gray-600"
+                        onClick={handleCartClick}
+                    >
                         <ShoppingBag className="h-5 w-5" />
+                        {cartCount > 0 && (
                         <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-blue-600 text-[10px] font-bold text-white">
-                            0
+                            {cartCount}
                         </span>
+                        )}
                     </Button>
 
-                    <div className="hidden md:block h-8 w-[1px] bg-gray-200 mx-1" />
-
-                    <Link href="/sign-in">
-                        <Button className="hidden md:flex rounded-full bg-blue-600 px-6 font-bold hover:bg-blue-700 transition-all active:scale-95 shadow-md shadow-blue-100">
+                    {session ? (
+                        <div className="flex items-center gap-3">
+                        <span className="hidden xl:block text-[10px] font-black uppercase text-slate-400 tracking-widest">
+                            Hi, {session.name}
+                        </span>
+                        <Button 
+                            onClick={handleSignOut}
+                            variant="outline"
+                            className="hidden md:flex rounded-full px-6 font-bold border-blue-600 text-blue-600 hover:bg-blue-50 transition-all active:scale-95"
+                        >
+                            <LogOut className="h-4 w-4 mr-2" /> Sign Out
+                        </Button>
+                        </div>
+                    ) : (
+                        <>
+                        <Link href="/sign-in">
+                        <Button className="hidden md:flex rounded-full bg-blue-600 px-6 font-bold text-white hover:bg-blue-700 transition-all active:scale-95 shadow-md shadow-blue-100">
                             Sign In
                         </Button>
-                    </Link>
-                    <Link href="/sign-up">
-                        <Button className="hidden md:flex rounded-full bg-blue-600 px-6 font-bold hover:bg-blue-700 transition-all active:scale-95 shadow-md shadow-blue-100">
+                        </Link>
+                        <Link href="/sign-up">
+                        <Button className="hidden md:flex rounded-full bg-blue-600 px-6 font-bold text-white hover:bg-blue-700 transition-all active:scale-95 shadow-md shadow-blue-100">
                             Sign Up
                         </Button>
-                    </Link>
+                        </Link>
+                        </>
+                    )}
 
                     {/* --- RESPONSIVE MOBILE MENU --- */}
                     <div className="lg:hidden">
@@ -116,29 +217,25 @@ export default function Navbar() {
 
                                 {/* 2. Navigation Links */}
                                 <nav className="flex flex-col gap-6 mt-10">
-                                    {navLinks.map((link) => {
-                                        const isActive = pathname === link.href;
-                                        return (<Link
-                                            key={link.name}
-                                            href={link.href}
-                                            className={cn(
-                                                    "text-lg font-bold transition-colors",
-                                                    isActive ? "text-blue-600" : "text-gray-800 hover:text-blue-600"
-                                                )}
+                                    {navLinks.map((link) => (
+                                        <Link
+                                        key={link.name}
+                                        href={link.href}
+                                        className={cn("text-lg font-bold transition-colors", pathname === link.href ? "text-blue-600" : "text-gray-800 hover:text-blue-600")}
                                         >
-                                            {link.name}
+                                        {link.name}
                                         </Link>
-                                    );
-                                    })}
-
+                                    ))}
                                     <hr className="my-2 border-blue-50" />
-
-                                    <Link href="/sign-in">
-                                        <Button className="w-full bg-blue-600 rounded-xl h-12 text-lg font-bold shadow-lg shadow-blue-100">
-                                            Sign In
-                                        </Button>
-                                    </Link>
-                                </nav>
+                                    {session ? (
+                                        <Button onClick={handleSignOut} variant="destructive" className="w-full rounded-xl h-12 text-lg">Logout</Button>
+                                    ) : (
+                                        <>
+                                        <Link href="/sign-in"><Button className="w-full bg-blue-600 rounded-xl h-12 text-lg text-white">Sign In</Button></Link>
+                                        <Link href="/sign-up"><Button className="w-full bg-blue-600 rounded-xl h-12 text-lg text-white">Sign Up</Button></Link>
+                                        </>
+                                    )}
+                                    </nav>
                             </SheetContent>
                         </Sheet>
                     </div>

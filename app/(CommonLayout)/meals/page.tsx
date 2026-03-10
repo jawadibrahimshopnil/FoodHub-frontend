@@ -2,6 +2,7 @@ import { mealService } from "@/service/meal.service";
 import Image from "next/image";
 import Link from "next/link";
 import { ShoppingBag, Star, Filter, ChevronLeft, ChevronRight, MapPin, UtensilsCrossed, Leaf } from "lucide-react";
+import AddToCartButton from "@/components/meals/AddToCartButton";
 
 export default async function AllMealsPage({
   searchParams,
@@ -106,9 +107,10 @@ export default async function AllMealsPage({
                       <div className="flex items-center gap-1 text-gray-400 text-[11px] font-bold truncate">
                         <MapPin className="h-3 w-3 text-blue-500" /> {meal.provider?.name}
                       </div>
-                      <button className="w-full bg-gray-900 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-blue-600 transition-all active:scale-95">
-                        <ShoppingBag className="h-4 w-4" /> Add to Cart
-                      </button>
+                      <AddToCartButton
+                        meal={meal}
+                        className="w-full bg-gray-900 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:bg-blue-600 transition-all active:scale-95 shadow-lg shadow-gray-100"
+                      />
                     </div>
                   </div>
                 );

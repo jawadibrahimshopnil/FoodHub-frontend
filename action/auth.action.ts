@@ -56,3 +56,24 @@ export const signInUserAction = async (values: LoginInput) => {
     return { success: false, message: "Login error" };
   }
 }
+
+export const getServerSessionAction = async () => {
+  try {
+    const session = await userService.getUser();
+    if (!session) return null;
+    return session;
+  } catch (error) {
+    return null;
+  }
+};
+
+
+
+
+export const logoutUserAction = async () => {
+  const cookieStore = await cookies();
+
+  cookieStore.delete("token");
+  
+  return { success: true };
+};

@@ -90,7 +90,7 @@ export const userService = {
       }
    },
 
-   UserLogOut : async () => {
+   userLogOut : async () => {
       const storeCookie = await cookies();
       storeCookie.delete("token");
    }

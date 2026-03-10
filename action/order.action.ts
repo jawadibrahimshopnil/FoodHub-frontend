@@ -113,3 +113,39 @@ export const trackOrderAction = async (orderId: string) => {
     return null;
   }
 };
+
+export const createOrderAction = async (payload: { 
+  address: string; 
+  items: { mealId: string; quantity: number }[] 
+}) => {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+
+    const res = await fetch(`${BACKEND_URL}/orders`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token!,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const result = await res.json();
+
+    if (res.ok && result.success) {
+    
+      revalidatePath("/dashboard/my-orders");
+      revalidatePath("/provider-dashboard/orders");
+      return { success: true, message: "Order placed successfully", data: result.data };
+    }
+
+    return { 
+      success: false, 
+      message: result.message || "Failed to finalize order" 
+    };
+  } catch (err) {
+    console.error("CREATE_ORDER_ERROR:", err);
+    return { success: false, message: "Network connection failed" };
+  }
+};
