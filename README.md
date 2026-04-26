@@ -1,39 +1,109 @@
-Live : https://food-hub-frontend-a4.vercel.app/
+# 🍔 FoodHub Frontend
 
+This is the frontend of the FoodHub food delivery web application. It provides a smooth and interactive UI for users, providers, and admins.
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+---
 
-## Getting Started
+## 🚀 Features
 
-First, run the development server:
+### 🏠 User Side
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Home page with featured meals
+- Authentication (Sign up / Login)
+- Browse meals with filters
+- View meal details
+- Add to cart with toast notifications
+- Place orders (Cash on Delivery / Stripe Payment)
+- Order history tracking
+
+### 🧑‍🍳 Provider Dashboard
+
+- Kitchen profile management
+- Menu management (Add/Edit/Delete meals)
+- Live order tracking
+- Update order status
+
+### 🛠️ Admin Dashboard
+
+- User management (ban/unban)
+- Category management
+- View all orders
+
+---
+
+## ⚛️ Tech Stack
+
+- React.js
+- React Router
+- Context API / State Management
+- Tailwind CSS / CSS Framework
+- Axios
+- Stripe (Frontend integration)
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── components/
+├── pages/
+├── layouts/
+├── hooks/
+├── services/
+├── context/
+└── App.jsx
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🔍 Modular Pattern
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Frontend follows a **component-based modular architecture**.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+#### Benefits:
+- Reusable components
+- Clean UI structure
+- Easy to scale
+- Better maintainability
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## ⚙️ Installation & Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 1️⃣ Clone the repository
+```bash
+git clone <your-frontend-repo-link>
+cd frontend
+```
+### 2️⃣ Install dependencies
+```
+npm install
+```
+###  3️⃣ Setup environment variables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Create a .env file:
+```
+VITE_API_URL=http://localhost:5000/api
+VITE_STRIPE_PUBLIC_KEY=your_public_key
+```
+### 4️⃣ Run the project
+```
+npm run dev
+```
+### 🌐 Application URL
+```
+http://localhost:5173
+```
+### 🎯 Key Functionalities
+Authentication UI
+Meal browsing & filtering
+Cart system
+Order system
+Payment integration
+Role-based dashboards
+### ✅ Future Improvements
+Mobile responsiveness improvements
+Dark mode
+Real-time updates
+### 👨‍💻 Author
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Developed by Jawad Ibrahim Shopnil
