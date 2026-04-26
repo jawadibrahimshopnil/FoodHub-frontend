@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { createOrderAction } from "@/action/order.action";
+import { createCheckoutSessionAction, createOrderAction } from "@/action/order.action";
 
 export default function MyCart() {
   const [cart, setCart] = useState<Record<string, any>[]>([]);
@@ -50,6 +50,35 @@ export default function MyCart() {
         toast.error(res.message || "Sync failed", { id: tid });
       }
     } catch (error) {
+      toast.error("Internal server error", { id: tid });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePayNow = async () => {
+    if (!address.trim()) return toast.error("Delivery address required");
+
+    setLoading(true);
+    const tid = toast.loading("Redirecting to payment...");
+
+    const payload = {
+      address,
+      items: cart.map(item => ({
+        mealId: item.id,
+        quantity: item.quantity,
+      })),
+    };
+
+    try {
+      const res = await createCheckoutSessionAction(payload);
+
+      if (res.success) {
+        window.location.href = res.data.url;
+      } else {
+        toast.error(res.message || "Failed", { id: tid });
+      }
+    } catch {
       toast.error("Internal server error", { id: tid });
     } finally {
       setLoading(false);
@@ -124,7 +153,7 @@ export default function MyCart() {
 
         {/* Right: Fancy Sidebar Summary */}
         <div className="lg:col-span-5 sticky top-8">
-          <div className="bg-slate-900 rounded-[2.5rem] p-8 text-white shadow-2xl relative overflow-hidden">
+          <div className="bg-white rounded-[2.5rem] p-8 shadow-2xl relative overflow-hidden">
             {/* Background Decorative Sparkle */}
             <Sparkles className="absolute -top-4 -right-4 text-white/5" size={120} />
             
@@ -136,7 +165,7 @@ export default function MyCart() {
                 </div>
                 <Textarea
                   placeholder="Drop-off address..."
-                  className="bg-white/5 border-none rounded-2xl text-xs font-bold placeholder:text-slate-600 focus-visible:ring-blue-500 min-h-[100px] resize-none"
+                  className="bg-white/5 border-none rounded-2xl text-xs font-bold placeholder:text-slate-300 focus-visible:ring-blue-500 min-h-[100px] resize-none"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                 />
@@ -147,26 +176,36 @@ export default function MyCart() {
               <div className="space-y-4">
                 <div className="flex justify-between text-[10px] font-black uppercase tracking-widest text-slate-400">
                   <span>Subtotal</span>
-                  <span className="text-white italic">৳{subtotal.toLocaleString()}</span>
+                  <span className="italic">${subtotal.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between items-end">
                   <div className="flex items-center gap-2">
                     <CreditCard size={16} className="text-blue-500" />
                     <span className="text-xs font-black uppercase italic">Total Due</span>
                   </div>
-                  <span className="text-4xl font-black text-white italic tracking-tighter">
-                    ৳{subtotal.toLocaleString()}
+                  <span className="text-4xl font-black italic tracking-tighter">
+                    ${subtotal.toLocaleString()}
                   </span>
                 </div>
               </div>
 
-              <Button
-                disabled={loading || cart.length === 0}
-                onClick={handlePlaceOrder}
-                className="w-full h-14 bg-blue-500 hover:bg-white hover:text-blue-500 rounded-2xl font-black uppercase text-[10px] tracking-[0.2em] transition-all active:scale-95 shadow-lg shadow-blue-500/20"
-              >
-                {loading ? <Loader2 className="animate-spin" /> : <>Commit Order <ArrowRight size={16} className="ml-2" /></>}
-              </Button>
+              <div>
+                <Button
+                  disabled={loading || cart.length === 0}
+                  onClick={handlePlaceOrder}
+                  className="w-full h-14 bg-blue-500 hover:bg-slate-100 hover:text-blue-500 border rounded-2xl font-black uppercase text-[10px] tracking-[0.2em] transition-all active:scale-95 shadow-lg shadow-blue-500/20 mb-2"
+                >
+                  {loading ? <Loader2 className="animate-spin" /> : <>Cash On Delivary <ArrowRight size={16} className="ml-2" /></>}
+                </Button>
+
+                <Button
+                  disabled={loading || cart.length === 0}
+                  onClick={handlePayNow}
+                  className="w-full h-14 bg-green-500 hover:bg-slate-100 hover:text-blue-500 border rounded-2xl font-black uppercase text-[10px] tracking-[0.2em] transition-all active:scale-95 shadow-lg shadow-blue-500/20"
+                >
+                  {loading ? <Loader2 className="animate-spin" /> : <>Pay now <ArrowRight size={16} className="ml-2" /></>}
+                </Button>
+              </div>
             </div>
           </div>
         </div>
