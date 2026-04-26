@@ -56,6 +56,7 @@ export default function MyOrders() {
               <TableHead className="p-8 text-[10px] font-black uppercase tracking-widest text-slate-400">Order Id</TableHead>
               <TableHead className="p-8 text-[10px] font-black uppercase tracking-widest text-slate-400">Price</TableHead>
               <TableHead className="p-8 text-[10px] font-black uppercase tracking-widest text-slate-400">Status</TableHead>
+              <TableHead className="p-8 text-[10px] font-black uppercase tracking-widest text-slate-400">Payment Mode</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -71,6 +72,11 @@ export default function MyOrders() {
                   <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase ${STATUS_CONFIG[order.status].color}`}>
                     {React.createElement(STATUS_CONFIG[order.status].icon, { size: 12 })}
                     {order.status}
+                  </div>
+                </TableCell>
+                <TableCell className="p-8">
+                  <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase text-blue-500 bg-blue-50`}>
+                    {order.paymentStatus}
                   </div>
                 </TableCell>
               </TableRow>

@@ -149,3 +149,43 @@ export const createOrderAction = async (payload: {
     return { success: false, message: "Network connection failed" };
   }
 };
+
+export const createCheckoutSessionAction = async (payload: {
+  address: string;
+  items: { mealId: string; quantity: number }[];
+}) => {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+
+    const res = await fetch(`${BACKEND_URL}/payments/create-checkout-session`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token!,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const result = await res.json();
+
+    if (res.ok && result.success) {
+      // just pass through Stripe URL
+      return {
+        success: true,
+        data: result.data, // { url: "https://checkout.stripe.com/..." }
+      };
+    }
+
+    return {
+      success: false,
+      message: result.message || "Failed to create checkout session",
+    };
+  } catch (err) {
+    console.error("CHECKOUT_SESSION_ERROR:", err);
+    return {
+      success: false,
+      message: "Network connection failed",
+    };
+  }
+};

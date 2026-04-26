@@ -12,6 +12,7 @@ export interface Order {
    orderDate: Date;
    address: string;
    userId: string;
+   paymentStatus: string;
    providerId: string;
    items: OrderItem[];
 }
